@@ -2,23 +2,30 @@
 
 #################################################
 #
-# PARAMETER SAFETY CHECKING
+# Input settings
 #
 #################################################
 
 set -e
 
+# CSV file with cgaROH parameters
 globalInputFile="../SNPs_Het_Mis.txt"
-globalInputDir="../PEDMAPs-by-Chr/RttPEDMAP-v6-H-by-Chr/RttPEDMAP-v6-H-c"
-# globalInputDir="PEDMAPs-by-Chr\RttPEDMAP-v6-L-by-Chr\RttPEDMAP-v6-L-c"
+# Directory with .PED/.MAP files
+globalInputDir="pedmaps/"
+# Maximum chromosome number
+maxChr=29
+# iterations (maximum tree depth) for binary clustering, default 100
+k=100000
+# Minimum SNP overlap, default is 10
+min_snp_overlap=3
+# Maximum physical gap between adjacent SNPs, if not given physical gaps won't be considered
+max_gap=1000000
 
 # Get timestamp
 echo "Getting timestamp"
 timestamp=$(date -d "today" +"%Y%m%d%H%M%S")
 # Setup output file name
 outputFile="$timestamp"
-# Maximum chromosome number
-maxChr=29
 
 #################################################
 #
@@ -42,15 +49,12 @@ echo "Setting ROH parameters"
 
 paramInputTableNames=$(ls SNPs_Het_Mis_MinL*)
 
-# iterations (maximum tree depth) for binary clustering, default 100c
-k=100000
-
 # minimum physical length of a TOH run, if not given phycal length won't be considered. A.k.a: Window Size
 minLengthRange=(1000000 2000000 4000000 8000000 16000000)
 
 i=0
 echo "Entering loops"
-for chr in $(seq 1 $maxChrNumber); do
+for chr in $(seq -s " " 1 $maxChr); do
 	echo "Processing Chromosome $chr"
 	inputFile=$globalInputDir$chr
 	for inputParamFile in $paramInputTableNames; do
@@ -64,7 +68,7 @@ for chr in $(seq 1 $maxChrNumber); do
 		max_hetero=$(echo $field | cut -d" " -f3)
 		max_missing=$(echo $field | cut -d" " -f4)
 		outputFile=$chr"_"$snp"_"${minLengthRange[$i]}"_"$max_missing"_"$max_hetero
-		TOH_ClusteringSuite_v1_0.exe -force_proceed -map $inputFile -p $inputFile -l $snp -n 3 -min_length ${minLengthRange[$i]} -max_gap 1000000 -max_missing $max_missing -max_hetero $max_hetero -k $k -o $outputFile | tee -a log_all1.txt
+		TOH_ClusteringSuite_v1_0.exe -force_proceed -map $inputFile -p $inputFile -l $snp -n $min_snp_overlap -min_length ${minLengthRange[$i]} -max_gap $max_gap -max_missing $max_missing -max_hetero $max_hetero -k $k -o $outputFile | tee -a log_all1.txt
 		# Increment min length index to match current inputParamFile
 		((i++))
 	done
