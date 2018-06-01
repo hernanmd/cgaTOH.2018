@@ -29,8 +29,8 @@ incrementing by two the following ones: First run take columns 1,2,3,4. Second r
     - max_gap = Maximum physical gap between adjacent SNPs, if not given physical gaps won't be considered
     - min_length = Minimum physical length of a TOH run, if not given physical length won't be considered
   - You should check and adjust the following parameters in the CSV file (SNP_Het_Mis.txt)
-    - max_missing = "Third" column in each generated table from each run.
-    - max_hetero = "Fourth" column in each generated table from each run.
+    - max_missing = "Third" column in each generated table from each run = Maximum missing SNPs allowed in a TOH run, if none give n then any number will be allowed
+    - max_hetero = "Fourth" column in each generated table from each run = Maximum heterozygous SNPs allowed in a TOH run, if none given then none will be allowed
     - l = Second column = TOH length, default is 100
 
 # Usage
