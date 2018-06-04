@@ -7,20 +7,21 @@ ROH Bovine Analysis and Post-Analysis using cgaTOH and R
 ## Windows users
 
   - Download and install:
-    - [cgaTOH](http://www.cs.kent.edu/~zhao/TOH/) to your working directory. If you cannot download the software, contact me by e-mail.
-    - [MinGW](https://youtu.be/Nuuht0m_-1g)
+    - [cgaTOH](http://www.cs.kent.edu/~zhao/TOH/) to your working directory. 
+      - Place the cgaTOH executable file under your working directory. Example: /c/Users/MyUsername/Documents/my_working_dir
+      - If you cannot download the software, contact me by e-mail.
     - [GitBash](http://www.techoism.com/how-to-install-git-bash-on-windows/)
 
 # Preparation
 
-  - You will have to run two scripts.
-    - First script executes a loop with the cgaTOH software with a set of input files.
-      - The loop executes for each chromosome, run another loop with the parameters in a parameter file (see below).
-    - Input files are:
-      - A CSV file with run parameters. See SNP_Het_Mis.txt for a sample table. This table will be splitted during execution using always the two first columns and 
+  - You must have the following input files:
+    - A CSV file with run parameters. See SNP_Het_Mis.txt for a sample table. This table will be splitted during execution using always the two first columns and 
 incrementing by two the following ones: First run take columns 1,2,3,4. Second run take columns 1,2,5,6. Third run: 1,2,7,8...etc.
-      - A directory with .PED/.MAP files. Each PED/MAP pair matches one chromosome. These files can be produced from PLINK and --chr parameter: ``` for c in $(seq 1 29); do plink --file my_input --out my_input_chr$c --chr $c --recode tab --cow; done```
-  - Create a directory (ex: my_working_dir) and place a pedmaps directory with your PEDMAPS as subdirectory of the my_working_dir.
+    - A directory with .PED/.MAP files. Each PED/MAP pair matches one chromosome. These files can be produced from PLINK and --chr parameter: ``` for c in $(seq 1 29); do plink --file my_input --out my_input_chr$c --chr $c --recode tab --cow; done```
+  - Create a directory (ex: pedmaps) as subdirectory of my_working_dir.
+      
+## Script parameters
+  
   - You should check and adjust the following parameters in the script:
     - k = Number of iterations (script defaults to 1000000) = Maximum tree depth for binary clustering.
     - maxChr = Number of chromosomes in your organism.
@@ -35,6 +36,13 @@ incrementing by two the following ones: First run take columns 1,2,3,4. Second r
 
 # Usage
 
+  - You will have to run two scripts.
+    - First script executes a loop with the cgaTOH software with a set of input files.
+      - The loop executes for each chromosome, run another loop with the parameters in a parameter file (see below).
+    - Second script parses the cgaTOH output.
+    
+ ## Run cgaTOH script
+ 
   - Open a GitBash console.
   - cd to the directory where you placed the cgaTOH executable file (my_working_dir): ``` cd /c/Users/MyUsername/Documents/my_working_dir ```
   - ``` cd src ```
@@ -45,7 +53,7 @@ bash
 . ./run_cgaTOH_adjusted.sh
 ```
 
-# Output
+## Output
 
   - Depending on your parameters in the CSV file (SNP_Het_Mis.txt), the output could generate hundreds of files.
     - Output files are timestamped, so different runs will never overwrite existing output files.
