@@ -16,13 +16,12 @@ ROH Bovine Analysis and Post-Analysis using cgaTOH and R
   - Open a GitBash console.
   - cd to the directory where you placed the cgaTOH executable file (my_working_dir): ``` cd /c/Users/MyUsername/Documents/my_working_dir ```
   - ``` git clone https://github.com/hernanmd/cgaTOH_bovine.2018.git ```
-  - ``` cd src ```
+  - ``` cd cgaTOH_bovine.2018/src ```
   - You must have the following input files:
     - A CSV file with run parameters. See SNP_Het_Mis.txt for a sample table. This table will be splitted during execution using always the two first columns and incrementing by two the following ones: First run take columns 1,2,3,4. Second run take columns 1,2,5,6. Third run: 1,2,7,8...etc.
     - Create a directory to place your .PED/.MAP files as subdirectory of my_working_dir: ``` mkdir pedmaps ``` 
     - Put your .PED/.MAP or multiple .PED/.MAP files into the new directory
     - Each PED/MAP pair matches one chromosome. These files can be produced from PLINK and --chr parameter: ``` for c in $(seq 1 29); do plink --file my_input --out my_input_chr$c --chr $c --recode tab --cow; done```
-   
 
 ## Script parameters
   
@@ -47,7 +46,6 @@ ROH Bovine Analysis and Post-Analysis using cgaTOH and R
     
  ## Run cgaTOH script
  
-
   - Run the script:
 
 ```bash
@@ -60,4 +58,8 @@ bash
   - Depending on your parameters in the CSV file (SNP_Het_Mis.txt), the output could generate hundreds of files.
     - Output files are timestamped, so different runs will never overwrite existing output files.
   - The output files should be used as input files to extract the ROH valuable information such as how many ROHs were found.
+  
+## Run the parse output script
+
+
 
