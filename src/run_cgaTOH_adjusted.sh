@@ -1,5 +1,18 @@
 ﻿#!/bin/sh
 
+# Description: Run cgaTOH Software script.
+# Author : <hernan.morales@gmail.com>
+# Input:
+#   .ped/.map directory
+#	Ranges of minimum physical length of a TOH run
+#	Number of chromosomes
+#	Number of iterations
+#	CSV file with cgaTOH parameters
+#	Minimum SNP overlap
+# 	Maximum physical gap between adjacent SNPs
+# Output:
+#   Text file with complete cgaTOH output log
+
 #################################################
 #
 # Input settings
@@ -8,7 +21,7 @@
 
 set -e
 
-# CSV file with cgaROH parameters
+# CSV file with cgaTOH parameters
 globalInputFile="../SNPs_Het_Mis.txt"
 # Directory with .PED/.MAP files
 globalInputDir="pedmaps/"
@@ -20,6 +33,10 @@ k=100000
 min_snp_overlap=3
 # Maximum physical gap between adjacent SNPs, if not given physical gaps won't be considered
 max_gap=1000000
+# minimum physical length of a TOH run, if not given phycal length won't be considered. A.k.a: Window Size
+minLengthRange=(1000000 2000000 4000000 8000000 16000000)
+# Complete output log file
+log=run_log.txt
 
 # Get timestamp
 echo "Getting timestamp"
@@ -49,9 +66,6 @@ echo "Setting ROH parameters"
 
 paramInputTableNames=$(ls SNPs_Het_Mis_MinL*)
 
-# minimum physical length of a TOH run, if not given phycal length won't be considered. A.k.a: Window Size
-minLengthRange=(1000000 2000000 4000000 8000000 16000000)
-
 i=0
 echo "Entering loops"
 for chr in $(seq -s " " 1 $maxChr); do
@@ -68,7 +82,7 @@ for chr in $(seq -s " " 1 $maxChr); do
 		max_hetero=$(echo $field | cut -d" " -f3)
 		max_missing=$(echo $field | cut -d" " -f4)
 		outputFile=$chr"_"$snp"_"${minLengthRange[$i]}"_"$max_missing"_"$max_hetero
-		TOH_ClusteringSuite_v1_0.exe -force_proceed -map $inputFile -p $inputFile -l $snp -n $min_snp_overlap -min_length ${minLengthRange[$i]} -max_gap $max_gap -max_missing $max_missing -max_hetero $max_hetero -k $k -o $outputFile | tee -a log_all1.txt
+		TOH_ClusteringSuite_v1_0.exe -force_proceed -map $inputFile -p $inputFile -l $snp -n $min_snp_overlap -min_length ${minLengthRange[$i]} -max_gap $max_gap -max_missing $max_missing -max_hetero $max_hetero -k $k -o $outputFile | tee -a $log
 		# Increment min length index to match current inputParamFile
 		((i++))
 	done
