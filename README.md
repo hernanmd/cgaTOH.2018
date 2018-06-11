@@ -1,20 +1,28 @@
 # cgaTOH_bovine.2018
 
-ROH Bovine Analysis and Post-Analysis using cgaTOH and R 
+ROH Bovine Analysis and Post-Analysis using cgaTOH and R. This repository provides a set of scripts to use as template for running [cgaTOH](https://digitalcommons.kent.edu/cgi/viewcontent.cgi?referer=https://duckduckgo.com/&httpsredir=1&article=1013&context=cspubs) software.
 
 # Requirements
 
   - Download and install:
-    - [cgaTOH](http://www.cs.kent.edu/~zhao/TOH/) to your working directory. 
-      - Place the cgaTOH executable file under your working directory. Example: /c/Users/MyUsername/Documents/my_working_dir
-      - If you cannot download the software, contact me by e-mail.
     - [GitBash](http://www.techoism.com/how-to-install-git-bash-on-windows/)
     - [PLINK](https://www.youtube.com/watch?v=I62fp9HB0kg&feature=youtu.be)
 
-# Input Files Preparation
+# cgaTOH Script: (run_cgaTOH.sh) Input Files Preparation
 
   - Open a GitBash console.
-  - cd to the directory where you placed the cgaTOH executable file (my_working_dir): ``` cd /c/Users/MyUsername/Documents/my_working_dir ```
+  - cd to your working directory (example: my_working_dir): ``` cd /c/Users/MyUsername/Documents/my_working_dir ```
+  - ``` git clone https://github.com/hernanmd/cgaTOH_bovine.2018.git ```
+  - ``` cd cgaTOH_bovine.2018/src ```
+  - Create a directory to place your .PED/.MAP files as subdirectory of my_working_dir: ``` mkdir pedmaps ``` 
+  - Put your .PED/.MAP or multiple .PED/.MAP files into the new directory
+  - Each PED/MAP pair matches one chromosome. 
+    - These files can be produced from PLINK and --chr parameter: ``` for c in $(seq 1 29); do plink --file my_input --out my_input_chr$c --chr $c --recode tab --cow; done```
+	
+# cgaTOH Adjusted Script: (run_cgaTOH_adjusted.sh) Input Files Preparation
+
+  - Open a GitBash console.
+  - cd to your working directory (example: my_working_dir): ``` cd /c/Users/MyUsername/Documents/my_working_dir ```
   - ``` git clone https://github.com/hernanmd/cgaTOH_bovine.2018.git ```
   - ``` cd cgaTOH_bovine.2018/src ```
   - You must have the following input files:
@@ -61,5 +69,25 @@ bash
   
 ## Run the parse output script
 
+Once the script completed, you can extract results using a script to parse the complete cgaTOH output log. The script generates 16 files:
 
+  - TOHFounds.txt
+  - TOHcFounds.txt
+  - TOHRunLengths.txt
+  - TOHSNPOveraps.txt
+  - TOHMinPhysicalLengths.txt
+  - TOHMaxPhysicalGaps.txt
+  - TOHMaxMissingSNPs.txt
+  - TOHMaxHetSNPs.txt
+  - TOHClusterings.txt
+  - TOHSimilaritys.txt
+  - TOHThreshold.txt
+  - TOHMinClusteringElems.txt
+  - TOHRegionAtts.txt
+  - TOHAllelicMatchingSimilarityOverride.txt
+  - TOHMinimumAllelicMatch.txt
+  - TOHMinimumAllelicOverlaps.txt
 
+´´´bash
+parse_cgaTOH_output.sh
+´´´
