@@ -2,45 +2,7 @@
 
 #################################################
 #
-# PARAMETER CHECKING
-#
-#################################################
-
-echo -n "Checking command parameter is present..."
-if [ $# -eq 0 ]; then
-    echo "ERROR"
-    echo "Usage: $(basename $0) ped_input (without .PED extension)"
-fi
-echo "ok"
-
-echo -n "Check input file are actually files..."
-inputFile=$1
-if [ ! -f "$inputFile.ped" ]; then
-    echo "ERROR"
-    echo "$inputFile not a file"
-fi
-echo "ok"
-
-#################################################
-#
-# PARAMETER SAFETY CHECKING
-#
-#################################################
-
-#echo -n "Converting to DOS file"
-#unix2dos $inputFile".ped"
-#unix2dos $inputFile".map"
-#echo "done"
-
-# Get timestamp
-echo "Getting timestamp"
-timestamp=$(date -d "today" +"%Y%m%d%H%M%S")
-# Setup output file name
-outputFile="$timestamp" 
-
-#################################################
-#
-# cgaTOH parameters
+# Input settings
 #
 #################################################
 
@@ -68,8 +30,61 @@ maxMissingRange=$(seq 1 5)
 # maximum heterozygous SNPs allowed in a TOH run, if non given then none will be allowed
 maxHetero=1
 
-# iterations (maximum tree depth) for binary clustering, default 100c
+# iterations (maximum tree depth) for binary clustering, default 100
 k=100000
+
+# Complete output log file
+log=run_log.txt
+
+
+#################################################
+#
+# PARAMETER CHECKING
+#
+#################################################
+
+echo -n "Checking command parameter is present..."
+if [ $# -eq 0 ]; then
+    echo "ERROR"
+    echo "Usage: $(basename $0) ped_input (without .PED extension)"
+fi
+echo "ok"
+
+echo -n "Check input file are actually files..."
+inputFile=$1
+if [ ! -f "$inputFile.ped" ]; then
+    echo "ERROR"
+    echo "$inputFile not a file"
+fi
+echo "ok"
+
+#################################################
+#
+# Download cgaTOH
+#
+#################################################
+
+tohWin="Windows_32_bit.zip"
+[[ -f $tohWin ]] || curl http://www.cs.kent.edu/%7Ezhao/TOH/Windows_32_bit.zip; unzip $tohWin
+tohExe="TOH_ClusteringSuite_v1_0.exe"
+
+#################################################
+#
+# PARAMETER SAFETY CHECKING
+#
+#################################################
+
+#echo -n "Converting to DOS file"
+#unix2dos $inputFile".ped"
+#unix2dos $inputFile".map"
+#echo "done"
+
+# Get timestamp
+echo "Getting timestamp"
+timestamp=$(date -d "today" +"%Y%m%d%H%M%S")
+# Setup output file name
+outputFile="$timestamp" 
+
 
 echo "Entering loops"
 for maxMissing in $maxMissingRange; do
@@ -77,7 +92,7 @@ for maxMissing in $maxMissingRange; do
 		for maxGap in $maxGapRange; do
 			for windowSize in $inputRange; do
 				for minimumSNPOverlap in $minimumSNPOverlapRange; do
-					TOH_ClusteringSuite_v1_0.exe -force_proceed -map $inputFile -p $inputFile -l $tohSize -n $minimumSNPOverlap -min_length $windowSize -max_gap $maxGap -max_missing $maxMissing -max_hetero $maxHetero -k $k -o $outputFile | tee -a log_all1.txt
+					./$tohExe -force_proceed -map $inputFile -p $inputFile -l $tohSize -n $minimumSNPOverlap -min_length $windowSize -max_gap $maxGap -max_missing $maxMissing -max_hetero $maxHetero -k $k -o $outputFile | tee -a log_all1.txt
 				done
 			done
 		done

@@ -1,5 +1,13 @@
 #!/bin/sh
 
+#################################################
+#
+# PARAMETER CHECKING
+#
+#################################################
+
+[[ -f run_log.txt ]] || echo "Missing results file"; exit 1
+
 $full_cgaTOH_log=run_log.txt
 $final_report=Final_Report.txt
 $found_TOHs=TOHFounds.txt
@@ -20,7 +28,7 @@ $found_minAllelicMatch=TOHMinimumAllelicMatch.txt
 $found_minAllelicOver=TOHMinimumAllelicOverlaps.txt
 
 echo "TOH Regions Found" > $found_TOHs
-grep ' TOH Regions Found.$'  | cut -d ' ' -f 1 >> $found_TOHs
+grep ' TOH Regions Found.$' | cut -d ' ' -f 1 >> $found_TOHs
 
 echo "cTOH Regions Found" > $found_cTOHs
 grep 'cTOH Regions Found.$' $full_cgaTOH_log | cut -d ' ' -f 1 >> $found_cTOHs

@@ -21,6 +21,8 @@
 
 set -e
 
+# Name of the software executable
+tohExe=TOH_ClusteringSuite_v1_0.exe
 # CSV file with cgaTOH parameters
 globalInputFile="../SNPs_Het_Mis.txt"
 # Directory with .PED/.MAP files
@@ -46,6 +48,15 @@ outputFile="$timestamp"
 
 #################################################
 #
+# Download cgaTOH
+#
+#################################################
+
+tohWin="Windows_32_bit.zip"
+[[ -f $tohWin ]] || wget http://www.cs.kent.edu/%7Ezhao/TOH/Windows_32_bit.zip; unzip $tohWin
+
+#################################################
+#
 # Split global parameter table
 #
 #################################################
@@ -66,23 +77,38 @@ echo "Setting ROH parameters"
 
 paramInputTableNames=$(ls SNPs_Het_Mis_MinL*)
 
+#################################################
+#
+# Begin code
+#
+#################################################
+
 i=0
 echo "Entering loops"
 for chr in $(seq -s " " 1 $maxChr); do
 	echo "Processing Chromosome $chr"
 	inputFile=$globalInputDir$chr
 	for inputParamFile in $paramInputTableNames; do
+		echo "Input file: "$inputFile
+		
 		echo "Processing $inputParamFile"
 		# Read parameter record
 		echo "${chr}q;d" > tmpFile
 		field=$(sed -f tmpFile $inputParamFile)
 		# Parse parameters
-		chr=$(echo $field | cut -d" " -f1)
+		chrs=$(echo $field | cut -d" " -f1)
+		echo "Processing chromosome: "$chrs
+		
 		snp=$(echo $field | cut -d" " -f2)
+		echo "Processing SNPs: "$snp
+		
 		max_hetero=$(echo $field | cut -d" " -f3)
 		max_missing=$(echo $field | cut -d" " -f4)
-		outputFile=$chr"_"$snp"_"${minLengthRange[$i]}"_"$max_missing"_"$max_hetero
-		TOH_ClusteringSuite_v1_0.exe -force_proceed -map $inputFile -p $inputFile -l $snp -n $min_snp_overlap -min_length ${minLengthRange[$i]} -max_gap $max_gap -max_missing $max_missing -max_hetero $max_hetero -k $k -o $outputFile | tee -a $log
+		
+		outputFile=$chrs"_"$snp"_"${minLengthRange[$i]}"_"$max_missing"_"$max_hetero
+		echo "Current output file: "$outputFile
+		./$tohExe -force_proceed -map $inputFile -p $inputFile -l $snp -n $min_snp_overlap -min_length ${minLengthRange[$i]} -max_gap $max_gap -max_missing $max_missing -max_hetero $max_hetero -k $k -o $outputFile | tee -a $log
+		
 		# Increment min length index to match current inputParamFile
 		((i++))
 	done
