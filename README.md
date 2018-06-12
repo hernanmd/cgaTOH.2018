@@ -2,9 +2,9 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
-# cgaTOH_bovine.2018
+# cgaTOH.2018
 
-ROH Bovine Analysis and Post-Analysis using cgaTOH and R. This repository provides a set of scripts to use as template for running [cgaTOH](https://digitalcommons.kent.edu/cgi/viewcontent.cgi?referer=https://duckduckgo.com/&httpsredir=1&article=1013&context=cspubs) software.
+ROH Analysis and Post-Analysis using cgaTOH and R. This repository provides a set of scripts to use as template for running [cgaTOH](https://digitalcommons.kent.edu/cgi/viewcontent.cgi?referer=https://duckduckgo.com/&httpsredir=1&article=1013&context=cspubs) software.
 
 # Requirements
 
@@ -46,7 +46,7 @@ The adjusted script uses an input parameter table (example: SNP_Het_Mis.txt) whi
   - 2-4 Mb
   - 4-8 Mb
   - 8-16 Mb
-  - > 16 Mb
+  - More than 16 Mb
 
 Each category consist of two columns: Missing and Heterozygous SNPs allowed per length category respectively. Each number of heterozygous (nH) and missing (nM) genotypes allowed in each ROH category for each chromosome was calculated as
 
@@ -148,7 +148,7 @@ If you'd like to make some changes yourself, see the following:
 
 This software is licensed under the MIT License.
 
-Copyright Hernán Morales Durand, 2018.
+Copyright Hernán Morales Durand, Daniel E. Goszczynski, 2018.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
