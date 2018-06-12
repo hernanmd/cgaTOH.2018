@@ -1,3 +1,9 @@
+[![license-badge](https://img.shields.io/badge/license-MIT-blue.svg)](https://img.shields.io/badge/license-MIT-blue.svg)
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+
 # cgaTOH_bovine.2018
 
 ROH Bovine Analysis and Post-Analysis using cgaTOH and R. This repository provides a set of scripts to use as template for running [cgaTOH](https://digitalcommons.kent.edu/cgi/viewcontent.cgi?referer=https://duckduckgo.com/&httpsredir=1&article=1013&context=cspubs) software.
@@ -10,6 +16,19 @@ ROH Bovine Analysis and Post-Analysis using cgaTOH and R. This repository provid
 
 # cgaTOH Script: (run_cgaTOH.sh) Input Files Preparation
 
+## Description
+
+This script executes cgaTOH looping through a different set of variables doing 5 global iterations. The final count of iterations depend on the maximums assigned to the iteration array in the following variables:
+
+  - First iteration variable (outermost) iterates a range between a minimum and the maximum of missing SNPs allowed in a TOH run. If none is given then any number will be allowed.
+  - Second iteration defines a range of TOH lengths between a minimum value and a maximum value in defined steps, for example to define a range from 10 TOH length to 20 TOHs length in steps of 5 ```tohRange=$(seq 10 5 20)``` 
+  - The maximum physical gap between adjacent SNPs, if not given physical gaps won't be considered ```maxGap=1000000```. The maximum gap range is defined as a range of maximum gaps for each iteration, example: ```maxGapRange=$(seq 1000 1000 100000)```
+  - The minimum physical length of a TOH run, if not given physical length won't be considered . For example to define a range from 1000 to 1000000 in steps of 10000 ```inputRange=$(seq 1000 1000 30000)```
+  - Additional settings
+    - Maximum heterozygous SNPs allowed in a TOH run, if non given then none will be allowed.
+
+## Usage
+
   - Open a GitBash console.
   - cd to your working directory (example: my_working_dir): ``` cd /c/Users/MyUsername/Documents/my_working_dir ```
   - ``` git clone https://github.com/hernanmd/cgaTOH_bovine.2018.git ```
@@ -21,6 +40,11 @@ ROH Bovine Analysis and Post-Analysis using cgaTOH and R. This repository provid
 	
 # cgaTOH Adjusted Script: (run_cgaTOH_adjusted.sh) Input Files Preparation
 
+## Description
+
+See paper...
+
+## Usage
   - Open a GitBash console.
   - cd to your working directory (example: my_working_dir): ``` cd /c/Users/MyUsername/Documents/my_working_dir ```
   - ``` git clone https://github.com/hernanmd/cgaTOH_bovine.2018.git ```
@@ -69,7 +93,7 @@ bash
   
 ## Run the parse output script
 
-Once the script completed, you can extract results using a script to parse the complete cgaTOH output log. The script generates 16 files:
+Once the Run cgaTOH (adjusted) script has completed, you can extract results using a script to parse the complete cgaTOH output log. The script generates 16 files:
 
   - TOHFounds.txt
   - TOHcFounds.txt
@@ -88,6 +112,34 @@ Once the script completed, you can extract results using a script to parse the c
   - TOHMinimumAllelicMatch.txt
   - TOHMinimumAllelicOverlaps.txt
 
-´´´bash
-parse_cgaTOH_output.sh
-´´´
+```bash
+./parse_cgaTOH_output.sh
+```
+# Contribute
+
+**Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
+
+If you have discovered a bug or have a feature suggestion, feel free to create an issue on Github.
+If you'd like to make some changes yourself, see the following:    
+  - Fork this repository to your own GitHub account and then clone it to your local device
+  - Do some modifications
+  - Test.
+  - Add <your GitHub username> to add yourself as author below.
+  - Finally, submit a pull request with your changes!
+  - This project follows the [all-contributors specification](https://github.com/kentcdodds/all-contributors). Contributions of any kind are welcome!
+
+# License
+
+This software is licensed under the MIT License.
+
+Copyright Hernán Morales Durand, 2018.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+# Authors
+
+Hernán Morales Durand
