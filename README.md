@@ -40,7 +40,25 @@ This script executes cgaTOH looping through a different set of variables doing 5
 
 ## Description
 
-See paper...
+The adjusted script uses an input parameter table (example: SNP_Het_Mis.txt) which divides ROHs into five different categories of ranges:
+
+  - 1-2 Mb
+  - 2-4 Mb
+  - 4-8 Mb
+  - 8-16 Mb
+  - > 16 Mb
+
+Each category consist of two columns: Missing and Heterozygous SNPs allowed per length category respectively. Each number of heterozygous (nH) and missing (nM) genotypes allowed in each ROH category for each chromosome was calculated as
+
+nH = (mL / dS) .eG
+nM = (mL / dS) .mG
+
+where 
+
+  - mL is ROH minimum length, 
+  - dS is the average distance between SNPs in the chromosome,
+  - eG is the genotyping error rate (0.25% according to Affymetrix standard procedures), 
+  - mG is the average missing genotype rate in the chromosome
 
 ## Usage
   - Open a GitBash console.
@@ -140,4 +158,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 # Authors
 
-Hernán Morales Durand
+Hernán Morales Durand, Daniel E. Goszczynski
