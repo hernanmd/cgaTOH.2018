@@ -107,7 +107,10 @@ for chr in $(seq -s " " 1 $maxChr); do
 		
 		outputFile=$chrs"_"$snp"_"${minLengthRange[$i]}"_"$max_missing"_"$max_hetero
 		echo "Current output file: "$outputFile
+		
+		echo "Running cgaTOH..."
 		./$tohExe -force_proceed -map $inputFile -p $inputFile -l $snp -n $min_snp_overlap -min_length ${minLengthRange[$i]} -max_gap $max_gap -max_missing $max_missing -max_hetero $max_hetero -k $k -o $outputFile | tee -a $log
+		echo "End run"
 		
 		# Increment min length index to match current inputParamFile
 		((i++))
