@@ -53,7 +53,9 @@ outputFile="$timestamp"
 #################################################
 
 tohWin="Windows_32_bit.zip"
-[[ -f $tohWin ]] || wget http://www.cs.kent.edu/%7Ezhao/TOH/Windows_32_bit.zip; unzip $tohWin
+if [[ ! -f $tohExe ]]; then
+	[[ -f $tohWin ]] || wget http://www.cs.kent.edu/%7Ezhao/TOH/Windows_32_bit.zip; unzip $tohWin
+fi
 
 #################################################
 #
@@ -67,14 +69,6 @@ cut -f 1-2,7-8 $globalInputFile | tail -n +2 > SNPs_Het_Mis_MinL04M.csv
 cut -f 1-2,9-10 $globalInputFile | tail -n +2 > SNPs_Het_Mis_MinL08M.csv
 cut -f 1-2,11-12 $globalInputFile | tail -n +2 > SNPs_Het_Mis_MinL16M.csv
 
-#################################################
-#
-# cgaTOH parameters
-#
-#################################################
-
-echo "Setting ROH parameters"
-
 paramInputTableNames=$(ls SNPs_Het_Mis_MinL*)
 
 #################################################
@@ -83,8 +77,6 @@ paramInputTableNames=$(ls SNPs_Het_Mis_MinL*)
 #
 #################################################
 
-i=0
-echo "Entering loops"
 for chr in $(seq -s " " 1 $maxChr); do
 	echo "Processing Chromosome $chr"
 	inputFile=$globalInputDir$chr
@@ -105,15 +97,11 @@ for chr in $(seq -s " " 1 $maxChr); do
 		max_hetero=$(echo $field | cut -d" " -f3)
 		max_missing=$(echo $field | cut -d" " -f4)
 		
-		outputFile=$chrs"_"$snp"_"${minLengthRange[$i]}"_"$max_missing"_"$max_hetero
+		outputFile="chr"$chrs"_snp"$snp"_minL"${minLengthRange[$i]}"_maxM"$max_missing"_maxH"$max_hetero
 		echo "Current output file: "$outputFile
 		
 		echo "Running cgaTOH..."
 		./$tohExe -force_proceed -map $inputFile -p $inputFile -l $snp -n $min_snp_overlap -min_length ${minLengthRange[$i]} -max_gap $max_gap -max_missing $max_missing -max_hetero $max_hetero -k $k -o $outputFile | tee -a $log
 		echo "End run"
-		
-		# Increment min length index to match current inputParamFile
-		((i++))
 	done
-	i=0
 done
