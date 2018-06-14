@@ -6,13 +6,17 @@
 
 ROH Analysis and Post-Analysis using cgaTOH and R. This repository provides a set of scripts to use as template for running [cgaTOH](https://digitalcommons.kent.edu/cgi/viewcontent.cgi?referer=https://duckduckgo.com/&httpsredir=1&article=1013&context=cspubs) software.
 
-# Requirements
+# Installation
 
-  - Download and install:
-    - [GitBash](http://www.techoism.com/how-to-install-git-bash-on-windows/)
+  - Download and install [GitBash](http://www.techoism.com/how-to-install-git-bash-on-windows/)
     - (Optional) [PLINK](https://www.youtube.com/watch?v=I62fp9HB0kg&feature=youtu.be)
+  - Open a GitBash console.
+  - cd to your working directory (example: my_working_dir): ``` cd /c/Users/MyUsername/Documents/my_working_dir ```
+  - ``` git clone https://github.com/hernanmd/cgaTOH.2018.git; cd cgaTOH.2018/src ```
+  - Put your .PED/.MAP or multiple .PED/.MAP files into the new directory
+    - (Optional) If your PED/MAP has many chromosomes: PLINK can split using the --chr parameter: ``` for c in $(seq 1 29); do plink --file my_input --out my_input_chr$c --chr $c --recode tab --cow; done```
 
-# cgaTOH Script: (run_cgaTOH.sh) Input Files Preparation
+# cgaTOH Script: (run_cgaTOH.sh) 
 
 ## Description
 
@@ -27,13 +31,11 @@ This script executes cgaTOH looping through a different set of variables doing 5
 
 ## Usage
 
-  - Open a GitBash console.
-  - cd to your working directory (example: my_working_dir): ``` cd /c/Users/MyUsername/Documents/my_working_dir ```
-  - ``` git clone https://github.com/hernanmd/cgaTOH.2018.git; cd cgaTOH.2018/src ```
-  - Put your .PED/.MAP or multiple .PED/.MAP files into the new directory
-    - (Optional) If your PED/MAP has many chromosomes: PLINK can split using the --chr parameter: ``` for c in $(seq 1 29); do plink --file my_input --out my_input_chr$c --chr $c --recode tab --cow; done```
+```
+./run_cgaTOH.sh
+```
 	
-# cgaTOH Adjusted Script: (run_cgaTOH_adjusted.sh) Input Files Preparation
+# cgaTOH Adjusted Script: (run_cgaTOH_adjusted.sh)
 
 ## Description
 
@@ -58,12 +60,12 @@ where
   - mG is the average missing genotype rate in the chromosome
 
 ## Usage
-  - Open a GitBash console.
-  - cd to your working directory (example: my_working_dir): ``` cd /c/Users/MyUsername/Documents/my_working_dir ```
-  - ``` git clone https://github.com/hernanmd/cgaTOH.2018.git; cd cgaTOH.2018/src ```
-  - Put your .PED/.MAP or multiple .PED/.MAP files into the new directory
-    - (Optional) If your PED/MAP has many chromosomes: PLINK can split using the --chr parameter: ``` for c in $(seq 1 29); do plink --file my_input --out my_input_chr$c --chr $c --recode tab --cow; done```
+
   - You must have a CSV file with run parameters. See SNP_Het_Mis.txt for a sample table. This table will be splitted during execution using always the two first columns and incrementing by two the following ones: First run take columns 1,2,3,4. Second run take columns 1,2,5,6. Third run: 1,2,7,8...etc.
+  
+```
+bash
+. ./
 
 ## Script parameters
   
