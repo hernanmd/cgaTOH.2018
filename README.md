@@ -63,10 +63,6 @@ where
 
   - You must have a CSV file with run parameters. See SNP_Het_Mis.txt for a sample table. This table will be splitted during execution using always the two first columns and incrementing by two the following ones: First run take columns 1,2,3,4. Second run take columns 1,2,5,6. Third run: 1,2,7,8...etc.
   
-```
-bash
-. ./
-
 ## Script parameters
   
   - You should check and adjust the following parameters in the script:
@@ -96,7 +92,7 @@ bash
   
 # parse_cgaTOH_output script
 
-Once the Run cgaTOH (adjusted) script has completed, you can extract results using a script to parse the complete cgaTOH output log. The script generates 16 files:
+Once the Run cgaTOH (adjusted) script has completed, you can extract results using a script to parse the complete cgaTOH output log. The script generates 16 temporary files:
 
   - TOHFounds.txt
   - TOHcFounds.txt
@@ -114,6 +110,8 @@ Once the Run cgaTOH (adjusted) script has completed, you can extract results usi
   - TOHAllelicMatchingSimilarityOverride.txt
   - TOHMinimumAllelicMatch.txt
   - TOHMinimumAllelicOverlaps.txt
+
+And a final results table file Final_Report.txt with all previous file results joined.
 
 ## Usage
 
