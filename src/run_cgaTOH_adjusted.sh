@@ -15,7 +15,7 @@
 
 #################################################
 #
-# Input settings
+# Input parameters
 #
 #################################################
 
@@ -24,7 +24,7 @@ set -e
 # Name of the software executable
 tohExe=TOH_ClusteringSuite_v1_0.exe
 # CSV file with cgaTOH parameters
-globalInputFile="../SNPs_Het_Mis.txt"
+globalInputFile="SNPs_Het_Mis.txt"
 # Directory with .PED/.MAP files
 globalInputDir="pedmaps/"
 # Maximum chromosome number
@@ -40,22 +40,48 @@ minLengthRange=(1000000 2000000 4000000 8000000 16000000)
 # Complete output log file
 log=run_log.txt
 
-# Get timestamp
-echo "Getting timestamp"
-timestamp=$(date -d "today" +"%Y%m%d%H%M%S")
-# Setup output file name
-outputFile="$timestamp"
-
 #################################################
 #
 # Download cgaTOH
 #
 #################################################
 
-tohWin="Windows_32_bit.zip"
-if [[ ! -f $tohExe ]]; then
-	[[ -f $tohWin ]] || wget http://www.cs.kent.edu/%7Ezhao/TOH/Windows_32_bit.zip; unzip $tohWin
-fi
+programUrl="http://www.cs.kent.edu/%7Ezhao/TOH"
+tohExeName="TOH_ClusteringSuite_v1_0"
+case "$OSTYPE" in
+	solaris*)
+		echo_line "Solaris seems not supported by cgaTOH"
+                exit 1
+		;;
+	darwin*)
+		timestamp=$(date +%Y%m%d%H%M%S)
+                tohContainer="OS_X.zip"
+                tohExe=$tohExeName
+                [[ -f $tohContainer ]] || curl $programUrl/$tohContainer -o $tohContainer; unzip $tohContainer; mv OS_X/$tohExe . ; chmod 755 $tohExe
+		;;
+	linux*)
+                tohContainer="Linux.zip"
+                tohExe=$tohExeName
+                [[ -f $tohContainer ]] || curl $programUrl/$tohContainer -o $tohContainer; unzip $tohContainer; mv Linux/$tohExe . ; chmod 755 $tohExe
+		;;
+	bsd*)
+		echo_line "BSD seems not supported by cgaTOH"
+                exit 1
+		;;
+	msys*)
+		timestamp=$(date -d "today" +"%Y%m%d%H%M%S")
+                tohContainer="Windows_32_bit.zip"
+                tohExe=$tohExeName".exe"
+                [[ -f $tohContainer ]] || curl $programUrl/$tohContainer -o $tohContainer; unzip $tohContainer; mv Win/$tohExe .
+		;;
+	*)
+		echo "unknown: $OSTYPE"
+                exit 1
+		;;
+esac
+
+# Setup output file name
+outputFile="$timestamp"
 
 #################################################
 #

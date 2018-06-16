@@ -8,27 +8,27 @@
 
 [[ -f run_log.txt ]] || echo "Missing results file"; exit 1
 
-$full_cgaTOH_log=run_log.txt
-$final_report=Final_Report.txt
-$found_TOHs=TOHFounds.txt
-$found_cTOHs=TOHcFounds.txt
-$found_runLengths=TOHRunLengths.txt
-$found_SNPoverlaps=TOHSNPOveraps.txt
-$found_minPhysicalGaps=TOHMinPhysicalLengths.txt
-$found_maxPhysicalGaps=TOHMaxPhysicalGaps.txt
-$found_maxMissingSNPs=TOHMaxMissingSNPs.txt
-$found_maxHetSNPs=TOHMaxHetSNPs.txt
-$found_Clusterings=TOHClusterings.txt
-$found_Similarity=TOHSimilaritys.txt
-$found_Threshold=TOHThreshold.txt
-$found_minClusteringElems=TOHMinClusteringElems.txt
-$found_regionAtts=TOHRegionAtts.txt
-$found_allelicMatchSimOver=TOHAllelicMatchingSimilarityOverride.txt
-$found_minAllelicMatch=TOHMinimumAllelicMatch.txt
-$found_minAllelicOver=TOHMinimumAllelicOverlaps.txt
+full_cgaTOH_log=run_log.txt
+final_report=Final_Report.txt
+found_TOHs=TOHFounds.txt
+found_cTOHs=TOHcFounds.txt
+found_runLengths=TOHRunLengths.txt
+found_SNPoverlaps=TOHSNPOveraps.txt
+found_minPhysicalGaps=TOHMinPhysicalLengths.txt
+found_maxPhysicalGaps=TOHMaxPhysicalGaps.txt
+found_maxMissingSNPs=TOHMaxMissingSNPs.txt
+found_maxHetSNPs=TOHMaxHetSNPs.txt
+found_Clusterings=TOHClusterings.txt
+found_Similarity=TOHSimilaritys.txt
+found_Threshold=TOHThreshold.txt
+found_minClusteringElems=TOHMinClusteringElems.txt
+found_regionAtts=TOHRegionAtts.txt
+found_allelicMatchSimOver=TOHAllelicMatchingSimilarityOverride.txt
+found_minAllelicMatch=TOHMinimumAllelicMatch.txt
+found_minAllelicOver=TOHMinimumAllelicOverlaps.txt
 
 echo "TOH Regions Found" > $found_TOHs
-grep ' TOH Regions Found.$' | cut -d ' ' -f 1 >> $found_TOHs
+grep ' TOH Regions Found.$' $full_cgaTOH_log | cut -d ' ' -f 1 >> $found_TOHs
 
 echo "cTOH Regions Found" > $found_cTOHs
 grep 'cTOH Regions Found.$' $full_cgaTOH_log | cut -d ' ' -f 1 >> $found_cTOHs
